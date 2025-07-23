@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Parking System</title>
+</head>
+
+<body>
+    <h2>Parking Fee Calculator</h2>
+
+    <label>Entry Time: <input type="datetime-local" id="entry"></label><br><br>
+    <label>Exit Time: <input type="datetime-local" id="exit"></label><br><br>
+    <button id="calculate">Calculate Fee</button>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("calculate").addEventListener("click", async () => {
+            const entry = document.getElementById("entry").value;
+            const exit = document.getElementById("exit").value;
+
+            const res = await fetch("/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ entry, exit })
+            });
+
+            const data = await res.json();
+            document.getElementById("result").textContent = `Total Fee: $${data.fee}`;
+        });
+    </script>
+</body>
+
+</html>
